@@ -17,18 +17,17 @@ const port = 3000;
 
 /* Identifikace složky obsahující statické soubory klientské části webu */
 app.use(express.static("public"));
+app.use(express.static("resources"));
 /* Nastavení typu šablonovacího engine na pug*/
 app.set("view engine", "pug");
 /* Nastavení složky, kde budou umístěny šablony pug */
 app.set("views", path.join(__dirname, "views"));
 
 /* Využití modulu body-parser pro parsování těla požadavku */
-const urlencodedParser = bodyParser.urlencoded({
-  extended: false
-});
-let datumZadani = moment().format('YYYY-MM-DD');
+const urlencodedParser = bodyParser.urlencoded({extended: false});
+let datumVydani = moment().format('YYYY-MM-DD');
 app.post('/savedata', urlencodedParser, function (req, res) {
-  let data = `"${req.body.JmenoFilmu}","${req.body.Zanr}","${Vydani}","${req.body.hodnoceni}"\n`;
+  let data = `"${req.body.JmenoFilmu}","${req.body.Zanr}","${datumVydani}","${req.body.hodnoceni}"\n`;
   fs.appendFile(path.join(__dirname, 'data/filmy.csv'), data, function (err) {
     if (err) {
       console.log('Nastala chyba: ', err);
@@ -41,14 +40,14 @@ app.post('/savedata', urlencodedParser, function (req, res) {
   });
 })
 
-app.get('/todolist', function (req, res) {
+app.get('/Filmy', function (req, res) {
   csvtojson({
       headers: ['JmenoFilmu', 'Zanr', 'Vydani', 'hodnoceni']
     })
     .fromFile(path.join(__dirname, 'data/filmy.csv'))
     .then(data => {
       console.log(data);
-      res.render('index', {nadpis: 'seznam filmů', ukoly: data})
+      res.render('index', {nadpis: 'seznam filmů', filmy: data})
 
     })
     .catch(error => {

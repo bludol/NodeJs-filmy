@@ -18,12 +18,12 @@ href='https://getbootstrap.com/docs/4.4/dist/css/bootstrap.min.css')
                         th Hodnocení
                 
                 tbody 
-                    each ukol in ukoly 
+                    each film in filmy
                         tr  
-                            td #{ukol.ukol}
-                            td #{ukol.predmet}
-                            td #{ukol.zadani}
-                            td #{ukol.odevzdani}
+                            td #{film.JmenoFilmu}
+                            td #{film.Zanr}
+                            td #{film.Vydani}
+                            td #{film.hodnoceni}
 
         footer.bg-dark.p-2
             .container.text-white
